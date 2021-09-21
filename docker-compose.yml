@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+
+  mongo-enot:
+    build: .
+    depends_on:
+      - rs_setup
+
+  mongo1:
+    hostname: mongo1
+    container_name: mongo1
+    image: mongo:4.2
+    expose:
+      - 27017
+    restart: always
+    volumes:
+      - ./data/mongo_dev_1:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo:4.2
+    expose:
+      - 27017
+    restart: always
+    volumes:
+      - ./data/mongo_dev_2:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo3:
+    hostname: mongo3
+    container_name: mongo3
+    image: mongo:4.2
+    expose:
+      - 27017
+    restart: always
+    volumes:
+      - ./data/mongo_dev_3:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  rs_setup:
+    image: mongo:4.2
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    volumes:
+      - ./rs_setup.sh:/rs_setup.sh
+    restart: "no"
+    entrypoint: [ "bash", "/rs_setup.sh"]
