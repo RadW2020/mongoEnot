@@ -23,7 +23,9 @@ MongoClient.connect(url, options, function(err, client) {
 
     setInterval(() => {
         insertDocuments(db, function() {
-            removeDocument(db, function() {});
+            updateDocument(db, function() {
+                removeDocument(db, function() {});
+            });
         });
     }, intervalTime);
 
