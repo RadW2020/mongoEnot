@@ -1,5 +1,5 @@
 # replica set resilience on election time after primary is down
-
+Code Related to mongodb bug https://jira.mongodb.org/browse/NODE-3623
 ## Steps to reproduce
 - docker-compose pull
 - docker-compose up
